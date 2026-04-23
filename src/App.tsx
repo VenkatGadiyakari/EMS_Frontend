@@ -5,6 +5,7 @@ import LoginView from './views/login';
 import BuyerRegistrationView from './views/buyer-registration';
 import OrganiserRegistrationView from './views/organiser-registration';
 import EventListingView from './views/event-listing';
+import EventDetailView from './views/event-detail';
 import './App.css';
 
 // Create a query client
@@ -72,7 +73,7 @@ function AppRoutes() {
 
       {/* Public event routes - accessible without auth */}
       <Route path="/events" element={<EventListingView />} />
-      <Route path="/events/:eventId" element={<PlaceholderView title="Event Detail" />} />
+      <Route path="/events/:eventId" element={<EventDetailView />} />
 
       {/* Protected admin/organiser routes */}
       <Route

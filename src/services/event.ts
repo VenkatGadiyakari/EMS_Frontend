@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import type {
   Event,
   EventSummary,
@@ -9,15 +9,15 @@ import type {
   CreateTierRequest,
   UpdateTierRequest,
   TierDeletionCheck,
-} from '@/types/event';
+} from "@/types/event";
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = "http://127.0.0.1:8081";
 
 const eventApi = axios.create({
   baseURL: API_BASE_URL,
   timeout: 30000,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -34,14 +34,19 @@ export const setupEventApiInterceptor = (tokenGetter: () => string | null) => {
       }
       return config;
     },
-    (error) => Promise.reject(error)
+    (error) => Promise.reject(error),
   );
 };
 
 export const eventService = {
   // Admin endpoints
-  getAdminEvents: async (page = 0, size = 10): Promise<PaginatedResponse<Event>> => {
-    const response = await eventApi.get('/api/admin/events', { params: { page, size } });
+  getAdminEvents: async (
+    page = 0,
+    size = 10,
+  ): Promise<PaginatedResponse<Event>> => {
+    const response = await eventApi.get("/api/admin/events", {
+      params: { page, size },
+    });
     return response.data;
   },
 
@@ -51,45 +56,73 @@ export const eventService = {
   },
 
   createEvent: async (data: CreateEventRequest): Promise<Event> => {
-    const response = await eventApi.post('/api/admin/events', data);
+    const response = await eventApi.post("/api/admin/events", data);
     return response.data;
   },
 
-  updateEvent: async (eventId: string, data: UpdateEventRequest): Promise<Event> => {
+  updateEvent: async (
+    eventId: string,
+    data: UpdateEventRequest,
+  ): Promise<Event> => {
     const response = await eventApi.put(`/api/admin/events/${eventId}`, data);
     return response.data;
   },
 
   cancelEvent: async (eventId: string): Promise<Event> => {
-    const response = await eventApi.patch(`/api/admin/events/${eventId}/cancel`);
+    const response = await eventApi.patch(
+      `/api/admin/events/${eventId}/cancel`,
+    );
     return response.data;
   },
 
   publishEvent: async (eventId: string): Promise<Event> => {
-    const response = await eventApi.patch(`/api/admin/events/${eventId}/publish`);
+    const response = await eventApi.patch(
+      `/api/admin/events/${eventId}/publish`,
+    );
     return response.data;
   },
 
   // Tier endpoints
-  createTier: async (eventId: string, data: CreateTierRequest): Promise<TicketTier> => {
-    const response = await eventApi.post(`/api/admin/events/${eventId}/tiers`, data);
+  createTier: async (
+    eventId: string,
+    data: CreateTierRequest,
+  ): Promise<TicketTier> => {
+    const response = await eventApi.post(
+      `/api/admin/events/${eventId}/tiers`,
+      data,
+    );
     return response.data;
   },
 
   getTier: async (eventId: string, tierId: string): Promise<TicketTier> => {
-    const response = await eventApi.get(`/api/admin/events/${eventId}/tiers/${tierId}`);
+    const response = await eventApi.get(
+      `/api/admin/events/${eventId}/tiers/${tierId}`,
+    );
     return response.data;
   },
 
-  updateTier: async (eventId: string, tierId: string, data: UpdateTierRequest): Promise<TicketTier> => {
-    const response = await eventApi.put(`/api/admin/events/${eventId}/tiers/${tierId}`, data);
+  updateTier: async (
+    eventId: string,
+    tierId: string,
+    data: UpdateTierRequest,
+  ): Promise<TicketTier> => {
+    const response = await eventApi.put(
+      `/api/admin/events/${eventId}/tiers/${tierId}`,
+      data,
+    );
     return response.data;
   },
 
-  checkTierDeletion: async (eventId: string, tierId: string): Promise<TierDeletionCheck> => {
-    const response = await eventApi.delete(`/api/admin/events/${eventId}/tiers/${tierId}`, {
-      validateStatus: (status) => status < 500,
-    });
+  checkTierDeletion: async (
+    eventId: string,
+    tierId: string,
+  ): Promise<TierDeletionCheck> => {
+    const response = await eventApi.delete(
+      `/api/admin/events/${eventId}/tiers/${tierId}`,
+      {
+        validateStatus: (status) => status < 500,
+      },
+    );
     return response.data;
   },
 
@@ -105,7 +138,7 @@ export const eventService = {
     page?: number;
     size?: number;
   }): Promise<PaginatedResponse<EventSummary>> => {
-    const response = await eventApi.get('/api/events', { params });
+    const response = await eventApi.get("/api/events", { params });
     return response.data;
   },
 
