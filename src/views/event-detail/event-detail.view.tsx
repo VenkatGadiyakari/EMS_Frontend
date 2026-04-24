@@ -67,12 +67,15 @@ export const EventDetailView: React.FC = () => {
   };
 
   const handleBuyNow = () => {
-    if (!event?.tiers) return;
-    const summary = event.tiers
-      .filter((tier) => (ticketSelections[tier.id] ?? 0) > 0)
-      .map((tier) => `${ticketSelections[tier.id]}x ${tier.name}`)
-      .join(', ');
-    window.alert(`Order summary:\n${summary}`);
+    if (!event) return;
+    navigate('/checkout', {
+      state: {
+        eventId: event.id,
+        selections: Object.fromEntries(
+          Object.entries(ticketSelections).filter(([, qty]) => qty > 0),
+        ),
+      },
+    });
   };
 
   const now = new Date();

@@ -3,6 +3,8 @@ import type { ReactNode } from 'react';
 import type { User, AuthResponse } from '@/types/auth';
 import { setupAuthInterceptor } from '@/services/auth';
 import { setupEventApiInterceptor } from '@/services/event';
+import { setupOrderApiInterceptor } from '@/services/order';
+import { setupPaymentApiInterceptor } from '@/services/payment';
 
 interface AuthContextType {
   user: User | null;
@@ -40,6 +42,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Setup axios interceptors with current access token
     setupAuthInterceptor(() => accessToken);
     setupEventApiInterceptor(() => accessToken);
+    setupOrderApiInterceptor(() => accessToken);
+    setupPaymentApiInterceptor(() => accessToken);
   }, [accessToken]);
 
   const login = (authData: AuthResponse) => {
