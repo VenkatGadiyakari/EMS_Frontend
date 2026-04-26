@@ -9,6 +9,7 @@ import type {
   CreateTierRequest,
   UpdateTierRequest,
   TierDeletionCheck,
+  SalesSummaryResponse,
 } from "@/types/event";
 
 const API_BASE_URL = "http://127.0.0.1:8081";
@@ -23,14 +24,23 @@ const eventApi = axios.create({
 
 // Add auth interceptor
 let getToken: (() => string | null) | null = null;
+let getUserId: (() => string | null) | null = null;
 
-export const setupEventApiInterceptor = (tokenGetter: () => string | null) => {
+export const setupEventApiInterceptor = (
+  tokenGetter: () => string | null,
+  userIdGetter: () => string | null,
+) => {
   getToken = tokenGetter;
+  getUserId = userIdGetter;
   eventApi.interceptors.request.use(
     (config) => {
       const token = getToken?.();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
+      }
+      const userId = getUserId?.();
+      if (userId) {
+        config.headers['X-User-Id'] = userId;
       }
       return config;
     },
@@ -128,6 +138,11 @@ export const eventService = {
 
   deleteTier: async (eventId: string, tierId: string): Promise<void> => {
     await eventApi.delete(`/api/admin/events/${eventId}/tiers/${tierId}`);
+  },
+
+  getSalesSummary: async (eventId: string): Promise<SalesSummaryResponse> => {
+    const response = await eventApi.get(`/api/admin/events/${eventId}/summary`);
+    return response.data;
   },
 
   // Public endpoints

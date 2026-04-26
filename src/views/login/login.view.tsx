@@ -24,7 +24,12 @@ export const LoginView: React.FC = () => {
       setAuthState(data);
 
       // Redirect based on role
-      const redirectPath = data.user.role === 'BUYER' ? '/events' : '/admin/events';
+      const redirectPath =
+        data.user.role === 'BUYER'
+          ? '/events'
+          : data.user.role === 'ADMIN'
+            ? '/admin/dashboard'
+            : '/admin/events';
       navigate(redirectPath);
     },
     onError: (error: any) => {

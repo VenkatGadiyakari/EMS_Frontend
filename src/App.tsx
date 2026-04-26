@@ -6,6 +6,9 @@ import BuyerRegistrationView from './views/buyer-registration';
 import OrganiserRegistrationView from './views/organiser-registration';
 import EventListingView from './views/event-listing';
 import EventDetailView from './views/event-detail';
+import { AdminEventsView } from './views/admin-events';
+import { AdminEventDetailView } from './views/admin-event-detail';
+import { AdminDashboardView } from './views/admin-dashboard';
 import './App.css';
 
 // Create a query client
@@ -40,31 +43,28 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: strin
   return <>{children}</>;
 };
 
-// Placeholder components for routes not yet implemented
-const PlaceholderView: React.FC<{ title: string }> = ({ title }) => {
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">{title}</h1>
-        <p className="text-gray-600">This view is coming soon...</p>
-      </div>
-    </div>
-  );
-};
 
 function AppRoutes() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+
+  const defaultRedirect = !isAuthenticated
+    ? '/login'
+    : user?.role === 'ADMIN'
+      ? '/admin/dashboard'
+      : user?.role === 'ORGANISER'
+        ? '/admin/events'
+        : '/events';
 
   return (
     <Routes>
       {/* Public routes */}
       <Route
         path="/login"
-        element={isAuthenticated ? <Navigate to="/events" replace /> : <LoginView />}
+        element={isAuthenticated ? <Navigate to={defaultRedirect} replace /> : <LoginView />}
       />
       <Route
         path="/register/buyer"
-        element={isAuthenticated ? <Navigate to="/events" replace /> : <BuyerRegistrationView />}
+        element={isAuthenticated ? <Navigate to={defaultRedirect} replace /> : <BuyerRegistrationView />}
       />
       <Route
         path="/register/organiser"
@@ -80,7 +80,15 @@ function AppRoutes() {
         path="/admin/events"
         element={
           <ProtectedRoute allowedRoles={['ORGANISER', 'ADMIN']}>
-            <PlaceholderView title="Admin Event List" />
+            <AdminEventsView />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/events/:id"
+        element={
+          <ProtectedRoute allowedRoles={['ORGANISER', 'ADMIN']}>
+            <AdminEventDetailView />
           </ProtectedRoute>
         }
       />
@@ -88,13 +96,13 @@ function AppRoutes() {
         path="/admin/dashboard"
         element={
           <ProtectedRoute allowedRoles={['ORGANISER', 'ADMIN']}>
-            <PlaceholderView title="Admin Dashboard" />
+            <AdminDashboardView />
           </ProtectedRoute>
         }
       />
 
       {/* Default route */}
-      <Route path="/" element={<Navigate to={isAuthenticated ? "/events" : "/login"} replace />} />
+      <Route path="/" element={<Navigate to={defaultRedirect} replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

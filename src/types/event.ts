@@ -125,3 +125,20 @@ export interface CreateTierRequest {
 }
 
 export interface UpdateTierRequest extends CreateTierRequest {}
+
+export interface TierSalesDto {
+  tierId: string;
+  tierName: string;
+  totalQty: number;
+  remainingQty: number;
+  soldQty: number;
+  revenue: number;
+}
+
+export interface SalesSummaryResponse {
+  eventId: string;
+  eventTitle: string;
+  totalOrders: number;
+  totalRevenue: number;
+  tiers: TierSalesDto[];
+}

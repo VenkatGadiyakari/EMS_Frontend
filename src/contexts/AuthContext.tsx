@@ -37,10 +37,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   useEffect(() => {
-    // Setup axios interceptors with current access token
+    // Setup axios interceptors with current access token and user id
     setupAuthInterceptor(() => accessToken);
-    setupEventApiInterceptor(() => accessToken);
-  }, [accessToken]);
+    setupEventApiInterceptor(() => accessToken, () => user?.id ?? null);
+  }, [accessToken, user]);
 
   const login = (authData: AuthResponse) => {
     setUser(authData.user);
