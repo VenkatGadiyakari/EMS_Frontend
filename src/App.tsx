@@ -6,9 +6,14 @@ import BuyerRegistrationView from './views/buyer-registration';
 import OrganiserRegistrationView from './views/organiser-registration';
 import EventListingView from './views/event-listing';
 import EventDetailView from './views/event-detail';
+<<<<<<< HEAD
 import { AdminEventsView } from './views/admin-events';
 import { AdminEventDetailView } from './views/admin-event-detail';
 import { AdminDashboardView } from './views/admin-dashboard';
+=======
+import CheckoutView from './views/checkout';
+import OrderStatusView from './views/order-status';
+>>>>>>> e18ee76acd10436085115ce4b579c2ecbee12f06
 import './App.css';
 
 // Create a query client
@@ -74,6 +79,26 @@ function AppRoutes() {
       {/* Public event routes - accessible without auth */}
       <Route path="/events" element={<EventListingView />} />
       <Route path="/events/:eventId" element={<EventDetailView />} />
+
+      {/* Protected checkout route — any authenticated user */}
+      <Route
+        path="/checkout"
+        element={
+          <ProtectedRoute>
+            <CheckoutView />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Protected order status route — any authenticated user */}
+      <Route
+        path="/order-status"
+        element={
+          <ProtectedRoute>
+            <OrderStatusView />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Protected admin/organiser routes */}
       <Route
