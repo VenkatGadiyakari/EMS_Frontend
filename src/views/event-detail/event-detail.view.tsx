@@ -6,6 +6,7 @@ import type { TicketTier } from '@/types/event';
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
 import { Alert } from '@/components/alert';
+import { BuyerLayout } from '@/components/buyer-layout';
 
 type TierUIStatus = 'AVAILABLE' | 'SOLD_OUT' | 'COMING_SOON' | 'SALE_ENDED';
 
@@ -81,20 +82,14 @@ export const EventDetailView: React.FC = () => {
   const now = new Date();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center gap-4">
-          <button
-            onClick={() => navigate('/events')}
-            className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-          >
-            ← Back to Events
-          </button>
-          <h1 className="text-2xl font-bold text-gray-900">Event Details</h1>
-        </div>
-      </header>
-
+    <BuyerLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <button
+          onClick={() => navigate('/events')}
+          className="text-blue-600 hover:text-blue-800 text-sm font-medium mb-6 inline-block"
+        >
+          ← Back to Events
+        </button>
         {/* Loading skeleton */}
         {isLoading && (
           <div className="lg:grid lg:grid-cols-3 lg:gap-8 animate-pulse">
@@ -267,6 +262,6 @@ export const EventDetailView: React.FC = () => {
           </div>
         )}
       </div>
-    </div>
+    </BuyerLayout>
   );
 };

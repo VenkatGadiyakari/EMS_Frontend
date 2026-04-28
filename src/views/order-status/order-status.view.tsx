@@ -7,6 +7,7 @@ import type { GetOrderResponse } from '@/types/order';
 import type { CreateRazorpayOrderResponse } from '@/types/payment';
 import { Button } from '@/components/button';
 import { Alert } from '@/components/alert';
+import { BuyerLayout } from '@/components/buyer-layout';
 
 const formatAmount = (amount: number) =>
   new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
@@ -83,13 +84,7 @@ export const OrderStatusView: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <h1 className="text-2xl font-bold text-gray-900">Order Status</h1>
-        </div>
-      </header>
-
+    <BuyerLayout>
       <div className="max-w-lg mx-auto px-4 sm:px-6 py-12">
         {/* Spinner — shown whenever there is no data yet and no error */}
         {!order && !fetchError && (
@@ -201,6 +196,6 @@ export const OrderStatusView: React.FC = () => {
           </div>
         )}
       </div>
-    </div>
+    </BuyerLayout>
   );
 };

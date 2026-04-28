@@ -9,6 +9,7 @@ import type { CreateOrderRequest } from '@/types/order';
 import type { CreateRazorpayOrderResponse } from '@/types/payment';
 import { Button } from '@/components/button';
 import { Alert } from '@/components/alert';
+import { BuyerLayout } from '@/components/buyer-layout';
 
 type TierUIStatus = 'AVAILABLE' | 'SOLD_OUT' | 'COMING_SOON' | 'SALE_ENDED';
 
@@ -186,9 +187,9 @@ export const CheckoutView: React.FC = () => {
   const buttonLabel = pendingOrderId ? 'Retry Payment' : 'Proceed to Pay';
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center gap-4">
+    <BuyerLayout>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex items-center gap-4 mb-6">
           <button
             onClick={() => navigate(`/events/${locationState?.eventId}`)}
             className="text-blue-600 hover:text-blue-800 text-sm font-medium"
@@ -197,9 +198,6 @@ export const CheckoutView: React.FC = () => {
           </button>
           <h1 className="text-2xl font-bold text-gray-900">Order Summary</h1>
         </div>
-      </header>
-
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Payment error */}
         {paymentError && (
           <Alert variant="error" className="mb-6">
@@ -380,6 +378,6 @@ export const CheckoutView: React.FC = () => {
           </div>
         )}
       </div>
-    </div>
+    </BuyerLayout>
   );
 };

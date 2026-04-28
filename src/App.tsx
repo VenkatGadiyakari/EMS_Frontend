@@ -11,6 +11,8 @@ import { AdminEventDetailView } from './views/admin-event-detail';
 import { AdminDashboardView } from './views/admin-dashboard';
 import CheckoutView from './views/checkout';
 import OrderStatusView from './views/order-status';
+import ProfileView from './views/profile';
+import BookingsView from './views/bookings';
 import './App.css';
 
 // Create a query client
@@ -93,6 +95,24 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <OrderStatusView />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Protected buyer routes */}
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfileView />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bookings"
+        element={
+          <ProtectedRoute>
+            <BookingsView />
           </ProtectedRoute>
         }
       />

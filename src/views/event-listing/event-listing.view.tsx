@@ -5,6 +5,7 @@ import { eventService } from '@/services/event';
 import { EventCategory } from '@/types/event';
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
+import { BuyerLayout } from '@/components/buyer-layout';
 
 export const EventListingView: React.FC = () => {
   const navigate = useNavigate();
@@ -48,14 +49,7 @@ export const EventListingView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <h1 className="text-2xl font-bold text-gray-900">Browse Events</h1>
-        </div>
-      </header>
-
+    <BuyerLayout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Filters */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
@@ -191,6 +185,6 @@ export const EventListingView: React.FC = () => {
           </>
         )}
       </div>
-    </div>
+    </BuyerLayout>
   );
 };
